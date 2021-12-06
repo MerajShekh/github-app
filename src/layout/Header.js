@@ -10,10 +10,15 @@ import {
 
 import { Link } from "react-router-dom";
 import { UserContext } from "../context";
+
+import { auth } from "../config/firebaseConfig";
+import { signOut } from "firebase/auth";
 const Header = () => {
   const context = useContext(UserContext);
 
-  console.log("CONTEXT", context.user);
+  const handleLogOut = async () => {
+    await signOut(auth);
+  };
 
   return (
     <Box sx={{ flexGrow: 1 }}>
@@ -37,13 +42,8 @@ const Header = () => {
           </Typography>
 
           {context.user ? (
-            <Button color="inherit">
-              <Link
-                to="/logout"
-                style={{ textDecoration: "none", color: "white" }}
-              >
-                logout
-              </Link>
+            <Button color="inherit" onClick={handleLogOut}>
+              logout
             </Button>
           ) : (
             <span>

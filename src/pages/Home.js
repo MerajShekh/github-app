@@ -5,10 +5,15 @@ import SearchIcon from "@mui/icons-material/Search";
 import UserCard from "./UserCard";
 import { toast } from "react-toastify";
 import Repos from "./Repos";
+import { useNavigate } from "react-router-dom";
+
+import { auth } from "../config/firebaseConfig";
+import { onAuthStateChanged } from "firebase/auth";
 
 const Home = () => {
   const [userInfo, setUserInfo] = useState(null);
   const [searchString, setSearchString] = useState("");
+  const navigate = useNavigate();
 
   const fetchDetail = async () => {
     try {
@@ -26,6 +31,12 @@ const Home = () => {
     e.preventDefault();
     fetchDetail();
   };
+
+  onAuthStateChanged(auth, (user) => {
+    if (user === null) {
+      return navigate("/signin");
+    }
+  });
 
   return (
     <Container maxWidth="md" sx={{ my: "2rem", py: "1rem" }}>

@@ -10,8 +10,8 @@ import {
   TextField,
 } from "@mui/material";
 
+import { auth } from "../config/firebaseConfig";
 import {
-  getAuth,
   createUserWithEmailAndPassword,
   onAuthStateChanged,
 } from "firebase/auth";
@@ -21,26 +21,21 @@ import { UserContext } from "../context";
 
 const SignUp = () => {
   const context = useContext(UserContext);
-  const auth = getAuth(context.firebaseApp);
   const navigate = useNavigate();
 
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-
-    createUserWithEmailAndPassword(auth, email, password)
-      .then((res) => {
-        console.log(res);
-        context.setUser({ email: res.user.email, uid: res.user.uid });
-      })
-      .catch((error) => {
-        console.log(error);
-        toast(error.message, {
-          type: "error",
-        });
+    try {
+      const user = createUserWithEmailAndPassword(auth, email, password);
+    } catch (error) {
+      console.log(error);
+      toast(error.message, {
+        type: "error",
       });
+    }
   };
 
   onAuthStateChanged(auth, (user) => {

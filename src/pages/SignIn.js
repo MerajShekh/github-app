@@ -10,37 +10,30 @@ import {
   TextField,
 } from "@mui/material";
 
-import {
-  getAuth,
-  signInWithEmailAndPassword,
-  onAuthStateChanged,
-} from "firebase/auth";
+import { auth } from "../config/firebaseConfig";
+import { signInWithEmailAndPassword, onAuthStateChanged } from "firebase/auth";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import { UserContext } from "../context";
 
 const SignIn = () => {
   const context = useContext(UserContext);
-  const auth = getAuth(context.firebaseApp);
   const navigate = useNavigate();
 
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
 
-    signInWithEmailAndPassword(auth, email, password)
-      .then((res) => {
-        console.log(res);
-        context.setUser({ email: res.user.email, uid: res.user.uid });
-      })
-      .catch((error) => {
-        console.log(error);
-        toast(error.message, {
-          type: "error",
-        });
+    try {
+      const user = await signInWithEmailAndPassword(auth, email, password);
+    } catch (error) {
+      console.log(error.message);
+      toast(error.message, {
+        type: "error",
       });
+    }
   };
 
   onAuthStateChanged(auth, (user) => {
