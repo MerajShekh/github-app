@@ -7,7 +7,6 @@ export default function Display() {
       <Box
         sx={{
           display: "grid",
-          p: 1,
           bgcolor: "primary.main",
           color: "white",
         }}
@@ -17,7 +16,7 @@ export default function Display() {
           component="h2"
           sx={{ textAlign: "center" }}
         >
-          GITHUB SEARCH APP WITH FIREBASE
+          MERAJ SHEKH . GitHub Search APP with Firebase
         </Typography>
       </Box>
     </div>
