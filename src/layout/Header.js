@@ -13,6 +13,7 @@ import { UserContext } from "../context";
 
 import { auth } from "../config/firebaseConfig";
 import { signOut } from "firebase/auth";
+
 const Header = () => {
   const context = useContext(UserContext);
 
